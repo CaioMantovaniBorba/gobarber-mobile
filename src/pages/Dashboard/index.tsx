@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/Feather';
 
 import { useAuth } from '../../hooks/auth';
 
@@ -12,7 +13,14 @@ import {
   UserName,
   ProfileButton,
   UserAvatar,
-  ProvidersList
+  ProvidersList,
+  ProvidersListTitle,
+  ProviderContainer,
+  ProviderAvatar,
+  ProviderInfo,
+  ProviderName,
+  ProviderMeta,
+  ProviderMetaText,
 } from './styles';
 
 export interface Provider {
@@ -31,12 +39,16 @@ const Dashboard: React.FC = () => {
     api.get('providers').then(response => {
       setProviders(response.data);
     });
-  })
+  });
 
   const navigateToProfile = useCallback(() => {
     // navigate('profile');
     signOut();
   }, [signOut]);
+
+  const navigateToCreateAppointment = useCallback((providerId: string) => {
+    navigate('CreateAppointment', { providerId });
+  }, [navigate]);
 
   return (
     <Container>
@@ -47,13 +59,46 @@ const Dashboard: React.FC = () => {
         </HeaderTitle>
 
         <ProfileButton onPress={navigateToProfile}>
-          <UserAvatar source={{ uri: "https://avatars.githubusercontent.com/u/38335770?s=460&u=a5b1e9ff1a5b094e518862d3a098a880e753b443&v=4" }} />
+          <UserAvatar
+            source={{
+              /* user.avatar_url */ uri:
+                'https://avatars.githubusercontent.com/u/38335770?s=460&u=a5b1e9ff1a5b094e518862d3a098a880e753b443&v=4',
+            }}
+          />
         </ProfileButton>
       </Header>
 
-      <ProvidersList data={providers} keyExtractor={provider => provider.id} renderItem={({ item }) => (
-        <UserName>{user.name}</UserName>
-      )} />
+      <ProvidersList
+        data={providers}
+        ListHeaderComponent={
+          <ProvidersListTitle>Cabeleireiros</ProvidersListTitle>
+        }
+        keyExtractor={provider => provider.id}
+        renderItem={({ item: provider }) => (
+          <ProviderContainer onPress={() => navigateToCreateAppointment(provider.id)}>
+            <ProviderAvatar
+              source={{
+                uri:
+                  /* item.avatar_url */ 'https://avatars.githubusercontent.com/u/38335770?s=460&u=a5b1e9ff1a5b094e518862d3a098a880e753b443&v=4',
+              }}
+            />
+
+            <ProviderInfo>
+              <ProviderName>{provider.name}</ProviderName>
+
+              <ProviderMeta>
+                <Icon name="calendar" size={14} color="#ff9000" />
+                <ProviderMetaText>Segunda à sexta</ProviderMetaText>
+              </ProviderMeta>
+
+              <ProviderMeta>
+                <Icon name="clock" size={14} color="#ff9000" />
+                <ProviderMetaText>8h às 18h</ProviderMetaText>
+              </ProviderMeta>
+            </ProviderInfo>
+          </ProviderContainer>
+        )}
+      />
     </Container>
   );
 };
