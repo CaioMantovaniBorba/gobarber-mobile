@@ -31,7 +31,7 @@ import {
   Hour,
   HourText,
   CreateAppointmentButton,
-  CreateAppointmentButtonText
+  CreateAppointmentButtonText,
 } from './styles';
 interface RouteParams {
   providerId: string;
@@ -163,12 +163,7 @@ const CreateAppointment: React.FC = () => {
 
         <HeaderTitle>Cabeleireiros</HeaderTitle>
 
-        <UserAvatar
-          source={{
-            uri:
-              /* user.avatar_url */ 'https://avatars.githubusercontent.com/u/38335770?s=460&u=a5b1e9ff1a5b094e518862d3a098a880e753b443&v=4',
-          }}
-        />
+        <UserAvatar source={{ uri: user.avatar_url }} />
       </Header>
 
       <Content>
@@ -183,12 +178,7 @@ const CreateAppointment: React.FC = () => {
                 onPress={() => handleSelectProvider(provider.id)}
                 selected={provider.id === selectedProvider}
               >
-                <ProviderAvatar
-                  source={{
-                    uri:
-                      /* provider.avatar_url */ 'https://avatars.githubusercontent.com/u/38335770?s=460&u=a5b1e9ff1a5b094e518862d3a098a880e753b443&v=4',
-                  }}
-                />
+                <ProviderAvatar source={{ uri: provider.avatar_url }} />
                 <ProviderName selected={provider.id === selectedProvider}>
                   {provider.name}
                 </ProviderName>

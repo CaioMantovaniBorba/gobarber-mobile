@@ -45,9 +45,12 @@ const Dashboard: React.FC = () => {
     navigate('Profile');
   }, [navigate]);
 
-  const navigateToCreateAppointment = useCallback((providerId: string) => {
-    navigate('CreateAppointment', { providerId });
-  }, [navigate]);
+  const navigateToCreateAppointment = useCallback(
+    (providerId: string) => {
+      navigate('CreateAppointment', { providerId });
+    },
+    [navigate],
+  );
 
   return (
     <Container>
@@ -58,12 +61,7 @@ const Dashboard: React.FC = () => {
         </HeaderTitle>
 
         <ProfileButton onPress={navigateToProfile}>
-          <UserAvatar
-            source={{
-              /* user.avatar_url */ uri:
-                'https://avatars.githubusercontent.com/u/38335770?s=460&u=a5b1e9ff1a5b094e518862d3a098a880e753b443&v=4',
-            }}
-          />
+          <UserAvatar source={{ uri: user.avatar_url }} />
         </ProfileButton>
       </Header>
 
@@ -74,12 +72,11 @@ const Dashboard: React.FC = () => {
         }
         keyExtractor={provider => provider.id}
         renderItem={({ item: provider }) => (
-          <ProviderContainer onPress={() => navigateToCreateAppointment(provider.id)}>
+          <ProviderContainer
+            onPress={() => navigateToCreateAppointment(provider.id)}
+          >
             <ProviderAvatar
-              source={{
-                uri:
-                  /* item.avatar_url */ 'https://avatars.githubusercontent.com/u/38335770?s=460&u=a5b1e9ff1a5b094e518862d3a098a880e753b443&v=4',
-              }}
+              source={{ uri: provider.avatar_url }}
             />
 
             <ProviderInfo>
